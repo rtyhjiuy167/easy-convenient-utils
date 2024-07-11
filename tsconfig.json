@@ -11,7 +11,7 @@
     "declarationMap": false,// 是否生成声明文件map文件（便于调试）
     "moduleResolution": "node",
     "module": "esnext",
-    "target": "es5",// 转化成的目标语言
+    "target": "ES2016",// 转化成的目标语言
     "allowSyntheticDefaultImports": true,
     "baseUrl": "./",
     "typeRoots": [
@@ -19,7 +19,7 @@
     ],
     "lib": [
       "dom",
-      "es2015"
+      "ES2016"
     ],
     "jsx": "react",
     "allowJs": false

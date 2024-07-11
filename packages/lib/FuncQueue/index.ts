@@ -12,12 +12,12 @@ class FuncQueue {
         intervalTime: 1000
     }
     private loading: boolean
-    private interval:  NodeJS.Timeout | undefined
+    private interval: number | NodeJS.Timeout | undefined
     get isLoading() {
         return this.loading
     }
 
-    constructor(params?:Partial<FuncQueueParams>) {
+    constructor(params?: Partial<FuncQueueParams>) {
         Object.assign(this.params, params)
     }
 

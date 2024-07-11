@@ -83,15 +83,18 @@ class FileUtils {
         dir,
         deep,
         gap,
+        initFunc,
         endFunc,
         changeFunc
     }: {
         dir: string
         deep: boolean
         gap: number
+        initFunc?: () => void
         endFunc?: (imgsInfoList: FileInfo[]) => boolean
         changeFunc: (imgsInfoList: FileInfo[]) => void
     }) {
+        if (initFunc) initFunc()
         let num = 0
         const interval = setInterval(() => {
             const infoList = this.getAllImgFilesInfo(dir, deep)
