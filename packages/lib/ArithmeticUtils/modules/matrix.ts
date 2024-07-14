@@ -87,49 +87,50 @@ class MatrixUtils {
      * @returns 
      */
     static maximalRectangle(matrix: Array<Array<string | number>>): { maxArea: number, pts: number[][] } {
-        const m = matrix.length
-        const res = { maxArea: 0, pts: [] as number[][] }
-        if (!m) return res
-        const n = matrix[0].length
-        let left = new Array(m).fill(0).map(() => new Array(n).fill(0))
+        const m = matrix.length;
+        const res = { maxArea: 0, pts: [[0, 0], [0, 0], [0, 0], [0, 0]] };
+        if (!m)
+            return res;
+        const n = matrix[0].length;
+        let left = new Array(m).fill(0).map(() => new Array(n).fill(0));
         // 计算每个元素到其左边连续为1的长度
         for (let i = 0; i < m; i++) {
             for (let j = 0; j < n; j++) {
                 if (Number(matrix[i][j]) === 1) {
-                    left[i][j] = (j === 0 ? 0 : left[i][j - 1]) + 1
+                    left[i][j] = (j === 0 ? 0 : left[i][j - 1]) + 1;
                 }
             }
         }
         // 以列为单位，左侧为高
         // 按照求柱状图中最大的矩形方法，即largestRectangleAreaByStack 求出最大值
         for (let j = 0; j < n; j++) {
-            const up: number[] = []
-            const down: number[] = []
-            let stack: number[] = []
+            const up = [];
+            const down = [];
+            let stack = [];
             for (let i = 0; i < m; i++) {
                 while (stack.length && left[stack[stack.length - 1]][j] >= left[i][j]) {
-                    stack.pop()
+                    stack.pop();
                 }
-                up[i] = stack.length === 0 ? -1 : stack[stack.length - 1]
-                stack.push(i)
+                up[i] = stack.length === 0 ? -1 : stack[stack.length - 1];
+                stack.push(i);
             }
-            stack = []
+            stack = [];
             for (let i = m - 1; i >= 0; i--) {
                 while (stack.length && left[stack[stack.length - 1]][j] >= left[i][j]) {
-                    stack.pop()
+                    stack.pop();
                 }
-                down[i] = stack.length === 0 ? m : stack[stack.length - 1]
-                stack.push(i)
+                down[i] = stack.length === 0 ? m : stack[stack.length - 1];
+                stack.push(i);
             }
             for (let i = 0; i < m; i++) {
                 const height = down[i] - up[i] - 1;
                 const area = height * left[i][j];
                 if (res.maxArea < area) {
-                    res.maxArea = area
-                    res.pts[0] = [up[i] + 1, j - height + 1]
-                    res.pts[1] = [up[i] + 1, j]
-                    res.pts[2] = [down[i] - 1, j]
-                    res.pts[3] = [down[i] - 1, j - height + 1]
+                    res.maxArea = area;
+                    res.pts[0] = [up[i] + 1, j - left[i][j] + 1];
+                    res.pts[1] = [up[i] + 1, j];
+                    res.pts[2] = [down[i] - 1, j];
+                    res.pts[3] = [down[i] - 1, j - left[i][j] + 1];
                 }
             }
         }
